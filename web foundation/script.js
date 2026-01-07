@@ -7,10 +7,12 @@ const user = {
 
 window.addEventListener("load", () => {
     const name = document.getElementById("name")
+    const title = document.getElementById("title")
     const about = document.getElementById("about")
     const skillContainer = document.getElementById("skillContainer")
 
     name.innerText = user.name;
+    title.innerText = user.name;
     about.innerText = user.about;
 
     const ul = document.createElement("ul")
