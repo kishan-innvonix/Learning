@@ -1,9 +1,16 @@
 
 const user = {
-    name: "User",
-    skills: ["HTML", "CSS", "JS"],
-    about: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisquam optio iste fugiat sint necessitatibus sit quae quam fuga adipisci neque facere nemo commodi, at eum. Quasi iste quam laudantium laborum?"
-}
+  name: "Dhaval",
+  skills: [
+    "HTML5",
+    "CSS3",
+    "JavaScript (ES6+)",
+    "DOM Manipulation",
+    "Git & GitHub",
+    "Basic Node.js"
+  ],
+  about: "I am a passionate Software Trainee with a strong foundation in web technologies. I enjoy building clean, user-friendly interfaces and learning modern JavaScript concepts like ES6, DOM manipulation, and asynchronous programming. I am eager to grow my skills and contribute to real-world projects."
+};
 
 window.addEventListener("load", () => {
     const name = document.getElementById("name")
