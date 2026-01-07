@@ -15,12 +15,12 @@ window.addEventListener("load", () => {
     title.innerText = user.name;
     about.innerText = user.about;
 
-    const ul = document.createElement("ul")
 
     for(let i = 0 ; i < user.skills.length ; i++){
         const li = document.createElement("li")
         li.innerText = user.skills[i]
-        ul.appendChild(li)
+        li.setAttribute("class", "skillItem")
+        skillContainer.appendChild(li)
     }
 
     skillContainer.appendChild(ul)
