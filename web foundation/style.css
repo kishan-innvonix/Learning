@@ -14,6 +14,7 @@ header{
     width: 100%;
     box-shadow: 5px 0px 1px black;
     height: 4rem;
+    background-color: white;
 }
 
 .nav{
@@ -135,7 +136,10 @@ a{
     color: #135370;
 }
 .contactItem{
-    padding: .6rem .9rem;
+    display: flex;
+    gap:1rem;
+    align-items: center;
+    padding: .6rem 1rem;
     border-radius: .3rem;
     background-color: #e1f0f8; 
 }
@@ -151,7 +155,7 @@ a{
     transition: all .2s ease;
 }
 .socialLink:hover{
-    text-shadow: 2px 2px 5px #135370;
+    text-shadow: 1px 1px 3px #135370;
 }
 
 @media (max-width: 600px) {
