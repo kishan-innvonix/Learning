@@ -17,12 +17,10 @@ window.addEventListener("load", () => {
     const title = document.getElementById("title")
     const about = document.getElementById("about")
     const skillContainer = document.getElementById("skillContainer")
-    const menuIcon = document.getElementsByClassName("menuIcon")
 
     name.innerText = user.name;
     title.innerText = user.name;
     about.innerText = user.about;
-
 
     for(let i = 0 ; i < user.skills.length ; i++){
         const li = document.createElement("li")
@@ -30,6 +28,4 @@ window.addEventListener("load", () => {
         li.setAttribute("class", "skillItem")
         skillContainer.appendChild(li)
     }
-
-    
 })

@@ -10,6 +10,7 @@ li{
 }
 
 header{
+    position: fixed;
     width: 100%;
     box-shadow: 5px 0px 1px black;
     height: 4rem;
@@ -44,6 +45,7 @@ a{
     color: #1E608B;
 }
 .container{
+    padding-top: 4rem;
     height: calc(100vh - 4rem);
     display: flex;
     align-items:center;
@@ -69,8 +71,8 @@ a{
     font-family:sans-serif;
 }
 .aboutBtn{
-    font-size: 1.3rem;
-    padding: .6rem .9rem;
+    font-size: 1.2rem;
+    padding: .4rem .9rem;
     box-shadow: 4px 4px 5px #135370;
     border-radius: .3rem;
     background-color: #135370;
@@ -105,6 +107,51 @@ a{
 .img{
     background-position: center;
     border-radius: 50%;   
+}
+
+.contectPage{
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    height: 100vh;
+    justify-content: center;
+}
+.contactTitle{
+    font-size: 3rem;
+}
+.contactText{
+    font-size: large;
+    color:rgba(33, 33, 33, 0.929);
+}
+.contactInfo{
+    font-size: 1.5rem;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap:.8rem;
+    color: #135370;
+}
+.contactItem{
+    padding: .6rem .9rem;
+    border-radius: .3rem;
+    background-color: #e1f0f8; 
+}
+.socialLinks{
+    font-size: 3rem;
+    display: flex;
+    gap: 2rem;
+}
+.fa-linkedin{
+    color: #1E608B;
+}
+.socialLink{
+    transition: all .2s ease;
+}
+.socialLink:hover{
+    text-shadow: 2px 2px 5px #135370;
 }
 
 @media (max-width: 600px) {
@@ -180,11 +227,30 @@ a{
         height: 80%;
        
     }
-
     .img{
         height: 100%;
         width: 100%;
         background-position: center;
         border-radius: 50%;   
+    }
+
+    .contectPage{
+        padding: 1rem;
+    }
+    .contactTitle{
+        font-size: 2.4rem;
+    }
+    .contactText{
+        text-align: center;
+        font-size: medium;
+        color:rgba(33, 33, 33, 0.929);
+    }
+    .contactInfo{
+        font-size: 1.1rem;
+    }
+    .socialLinks{
+        font-size: 2rem;
+        display: flex;
+        gap: 2rem;
     }
 }
