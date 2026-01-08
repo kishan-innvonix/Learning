@@ -4,8 +4,8 @@ const user = {
   skills: [
     "HTML5",
     "CSS3",
-    "JavaScript (ES6+)",
-    "DOM Manipulation",
+    "JavaScript",
+    "DOM",
     "Git & GitHub",
     "Basic Node.js"
   ],
@@ -17,6 +17,7 @@ window.addEventListener("load", () => {
     const title = document.getElementById("title")
     const about = document.getElementById("about")
     const skillContainer = document.getElementById("skillContainer")
+    const menuIcon = document.getElementsByClassName("menuIcon")
 
     name.innerText = user.name;
     title.innerText = user.name;
@@ -30,5 +31,5 @@ window.addEventListener("load", () => {
         skillContainer.appendChild(li)
     }
 
-    skillContainer.appendChild(ul)
+    
 })
