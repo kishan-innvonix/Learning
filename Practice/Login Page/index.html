@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="images/inscription.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Londrina+Sketch&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<title>SignUp Now</title>
+</head>
+<body>
+    <div class="container">
+        <form class="form">
+            <div class="inputContainer">
+                <h1>SignUp Now</h1>
+                <div class="inputItem">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" id="name">
+                </div>
+                <div class="inputItem">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email">
+                </div>
+                <div class="inputItem">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" autocomplete="off">
+                </div>  
+                <div class="inputItem">
+                    <label for="phone">Phone</label>
+                    <input type="text" name="phone" id="phone" >
+                </div>
+                <div class="gender">
+                    <label for="male">male</label>
+                    <input type="radio" name="gender" id="male" value="male">
+                    <label for="female">female</label>
+                    <input type="radio" name="gender" id="female" value="female">
+                </div>
+                <input type="submit" id="submit">
+            </div>
+        </form>
+        <div class="logoImg">
+            <img src="images/loginImg.png" alt="avatar">
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

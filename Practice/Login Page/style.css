@@ -1,0 +1,111 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+}
+
+label, 
+input[type="radio"], 
+input[type="submit"]{
+    cursor: pointer;
+}
+
+.container{
+    background-color: aliceblue;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+}
+
+.form{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.inputContainer{
+    display: flex;
+    flex-direction: column;
+    gap: .9rem;
+    padding: 3rem 2rem;
+    width: 55%;
+    background-color: white;
+    box-shadow: 1px 1px 3px #581386;
+    border-radius: 1rem;
+}
+.inputItem{
+    font-size: 1rem;    
+    display: flex;
+    flex-direction: column;
+    gap: .1rem;
+}
+.inputContainer h1{
+    color: #E68C45;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #6e18a69a;
+    padding-bottom: .4rem;
+}
+.inputItem input{
+    font-size: 1.2rem;
+    padding: .4rem .3rem;
+    box-sizing: border-box;
+    border: 1px solid #5813869a;
+    border-radius: .5rem;
+    color: #522666;
+}
+.inputItem input:focus{
+    border: 2px solid #FCAE31;
+    outline: none;
+}
+.inputContainer label{
+    color: #9B48C1;
+    font-weight: 700;
+}
+.gender{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: .5rem;
+    font-size: 1.3rem;
+}
+input[type="submit"]{
+    padding: .6rem 0rem;
+    margin-top: .5rem;
+    font-size: 1rem;
+    color: #fff;
+    font-weight: 700;
+    background-color: #581386;
+    border-radius: .5rem;
+    outline: none;
+    border: 1px solid rgba(128, 128, 128, 0.622);
+    transition: all .2s ease;
+}
+input[type="submit"]:hover{
+    background-color: #581386eb;
+}
+
+.logoImg{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: left;
+    align-items:center;
+}
+.logoImg img{
+    height: 90%;
+    width: 90%;
+}
+
+@media (max-width: 600px){
+    .logoImg{
+        display: none;
+    }
+    .form{
+        width: 100%;
+    }
+    .inputContainer{
+        width: 90%;
+    }
+}

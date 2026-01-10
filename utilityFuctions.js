@@ -1,8 +1,16 @@
 const formatDuration = (milisecond) => {
-    let seconds = Math.floor((milisecond / 1000) % 60).toString().padStart(2,"0");
-    let minites = Math.floor(milisecond / (1000 * 60) % 60).toString().padStart(2,"0");
-    let hours = Math.floor(milisecond / (1000 * 60 * 60) % 24).toString().padStart(2,"0");
-    let days = Math.floor(milisecond / (1000 * 60 * 60 * 24)).toString().padStart(2,"0")    
+    let seconds = Math.floor((milisecond / 1000) % 60)
+        .toString()
+        .padStart(2, "0");
+    let minites = Math.floor(milisecond / (1000 * 60) % 60)
+        .toString()
+        .padStart(2, "0");
+    let hours = Math.floor(milisecond / (1000 * 60 * 60) % 24)
+        .toString()
+        .padStart(2, "0");
+    let days = Math.floor(milisecond / (1000 * 60 * 60 * 24))
+        .toString()
+        .padStart(2, "0")    
     return `${days}:${hours}:${minites}:${seconds}`
 }
 
