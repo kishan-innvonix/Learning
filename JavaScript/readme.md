@@ -227,7 +227,39 @@ function sum(a) {
 alert( sum(1)(2) ); // 3
 alert( sum(5)(-1) ); // 4
 
+// Closure example with built in methods
+for (var i = 0; i < 3; i++) {
+  setTimeout(() => console.log(i), 1000);
+}
+Output:
+3
+3
+3
+var is function-scoped
+All callbacks share the same i
+Loop finishes → i = 3
+
+Fix with block scope (use let instead var)
+A closure works because JavaScript keeps a reference to the scope where the function was created, not where it is executed.
+
 
 If a code block is inside a function, then var becomes a function-level variable:
 
-call and
+call for direct call
+apply for passing argument as an array 
+bind for bind this permenentaly and returns callback instead directly calling it
+
+Capturing and bubbling allow us to implement one of the most powerful event handling patterns called event delegation.
+
+The idea is that if we have a lot of elements handled in a similar way, then instead of assigning a handler to each of them – we put a single handler on their common ancestor.
+
+
+********************************************************////////////////////////////////////////////********************************************************
+
+
+versioning 
+4.18.2
+
+.2 -> Minor fixes (Optional)
+.18 -> Recommended Bug Fix (Secuirity)
+4 -> major or breaking update (may existing app code can broke)
