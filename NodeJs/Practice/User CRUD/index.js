@@ -65,8 +65,16 @@ app.get("/api/users", (req, res) => {
 //  GET /api/users/:id
 app.get("/api/users/:id", (req, res) => {
     try {
-        const data = readData();
         const { id } = req.params;
+        
+        if(!id) {
+            return res.status(404).json({
+                success: false,
+                message: "UserId not found!!!"
+            })
+        }
+        
+        const data = readData();
 
         const user = data.find(item => item.id == id);  
 
@@ -105,6 +113,14 @@ app.post("/api/users", (req, res) => {
         }
 
         const data = readData();
+
+        const existUser = data.find(item => item.email === email)
+        if(existUser) {
+            return res.status(400).json({
+                success: false,
+                message: "User already exist!!!"
+            })
+        }
 
         const user = {
             id: data[data.length - 1].id + 1,
