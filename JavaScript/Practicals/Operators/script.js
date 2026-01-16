@@ -62,7 +62,7 @@ while(repeat){
 
     switch(menuSelection){
         case "1":
-            user?.percentage ? showResult(user.percentage) : calculateAverageScore(user);
+            user?.percentage ? showResult(user) : calculateAverageScore(user);
             break;
         case "2":
             isEligibleForCourse(user.percentage);
@@ -86,15 +86,30 @@ function calculateAverageScore({math, science, english}) {
     showResult(user.percentage)
 }
 
-function showResult(percentage) {
-    const result = percentage >= 95 ? "A+" :
-     percentage >= 85 ? "A" : 
-     percentage >= 65 ? "B" : 
-     percentage >= 55 ? "C" : 
-     percentage >= 35 ? "D" : 
-     "Fail!!!";
-    alert(`${percentage} ${result}`)
+function showResult(user) {
+    const { math, science, english, percentage } = user;
+    
+    if (math < 35 || science < 35 || english < 35) {
+        alert("Fail (One or more subjects failed)");
+        return;
+    }
+   
+    let result;
+    if (percentage >= 95) {
+        result = "A+";
+    } else if (percentage >= 85) {
+        result = "A";
+    } else if (percentage >= 65) {
+        result = "B";
+    } else if (percentage >= 55) {
+        result = "C";
+    } else {
+        result = "D";
+    }
+
+    alert(`${percentage}% - Grade: ${result}`);
 }
+
 
 function isEligibleForCourse(percentage) {
     const message = percentage >= 80 ? "Your fit for Science!" : 
