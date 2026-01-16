@@ -22,16 +22,21 @@ const cart = () => {
     let items = [];
 
     return (item) => {
-        items.push(item)
+        items.push(item);
         return items;
     }
 }
 
-const cartHandler = cart();
+const foodItems = cart();
+const electronicItems = cart();
 
-cartHandler("TV")
-cartHandler("Vegitable")
-cartHandler("Fruit")
-const items = cartHandler("Headset")
+foodItems("Banana");
+foodItems("Apple");
+console.log( foodItems("Vagetable") );
 
-console.log(items)
+electronicItems("TV");
+electronicItems("Remote");
+console.log( electronicItems("Frige") );
+
+
+// Different instance has different lexical Environment
