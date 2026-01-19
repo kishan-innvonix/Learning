@@ -2,6 +2,7 @@ import express from "express"
 import { dbConnect } from "./config/db.js";
 import { globalErrorHandler } from "./middleware/error.middleware.js";
 import urlRoutes from "./routes/url.routes.js"
+import userRoutes from "./routes/user.routes.js"
 
 const app = express();
 
@@ -17,7 +18,8 @@ app.get("/", (req, res) => {
 
 
 // routes
-app.use("/api/url", urlRoutes)
+app.use("/url", urlRoutes)
+app.use("/user", userRoutes)
 
 
 // Error handler middleware
