@@ -1,0 +1,29 @@
+[
+  {
+    "id": "1",
+    "items": [
+      { "name": "Apple", "quantity": 2 },
+      { "name": "Banana", "quantity": 1 }
+    ],
+    "status": "PENDING",
+    "createdAt": "2026-01-17T12:00:00.000Z"
+  },
+  {
+    "id": "d51d1482-f8b5-4995-8f36-e0efbac3f550",
+    "items": [
+      { "name": "TV", "quantity": 2 },
+      { "name": "REMOTE", "quantity": 1 }
+    ],
+    "status": "DELIVERED",
+    "createdAt": "2026-01-17T13:45:24.295Z"
+  },
+  {
+    "id": "64fc2b91-893a-4228-b3fc-7fed063616f4",
+    "items": [
+      { "name": "TV", "quantity": 2 },
+      { "name": "REMOTE", "quantity": 1 }
+    ],
+    "status": "CANCELED",
+    "createdAt": "2026-01-17T16:02:45.618Z"
+  }
+]
