@@ -28,7 +28,6 @@ export const getOriginalUrl = asyncHandler(async (req, res) => {
         null,
       device: ua?.device?.type || "Desktop",
       clickedAt: new Date().toISOString(),
-      // os: ua.os,
       language: req.headers["accept-language"],
     };
 

@@ -5,16 +5,10 @@ const visitListSchema = new mongoose.Schema({
     ip: {
         type: String,
     },
-    host: {
-        type: String,
-    },
     device: {
         type: String,
     },
     clickedAt: {
-        type: String,
-    },
-    os: {
         type: String,
     },
     language: {
@@ -36,7 +30,11 @@ const urlSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    visitList: [visitListSchema]
+    visitList: [visitListSchema],
+    isActive: {
+        type: Boolean,
+        default: true
+    }
 }, { timestamps: true })    
 
 export default mongoose.model("Url", urlSchema);

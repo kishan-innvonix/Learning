@@ -1,4 +1,5 @@
 import React from "react";
+import { LogOut } from 'lucide-react'
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import Logo from "./Logo";
@@ -21,10 +22,10 @@ const Navbar = () => {
             </Link>
             <Link
               onClick={() => logout()}
-              className="text-xl font-medium text-red-500"
+              className="text-xl font-medium flex items-center gap-1 text-red-500"
               to="/"
             >
-              Logout
+              Logout <LogOut size={20}/> 
             </Link>
           </div>
         ) : (
