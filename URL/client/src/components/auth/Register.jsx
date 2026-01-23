@@ -5,7 +5,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "../../schemas/auth.schemas";
 import { Link } from "react-router-dom";
 import AuthLayout from "./AuthLayout";
-import FormError from "./FormError";
 import { useAuth } from "../../hooks/useAuth";
 
 const Register = () => {
@@ -41,24 +40,28 @@ const Register = () => {
             label={"Name"}
             type={"text"}
             {...register("name")}
+            error={errors.name}
           />
           <Input
             id={"email"}
             label={"Email"}
             type={"email"}
             {...register("email")}
+            error={errors.email}
           />
           <Input
             id={"password"}
             label={"Password"}
             type={"password"}
             {...register("password")}
+            error={errors.password}
           />
           <Input
             id={"confirmPass"}
             label={"Confirm Password"}
             type={"password"}
             {...register("confirmPass")}
+            error={errors.confirmPass}
           />
           <input
             className={`border text-lg px-10 py-1 rounded bg-black text-white font-bold cursor-pointer  mt-2`}
@@ -67,9 +70,6 @@ const Register = () => {
             disabled={isSignup}
           />
         </form>
-
-        {/* Error handling */}
-        <FormError errors={errors} />
 
         <p>
           Already Signup?{" "}

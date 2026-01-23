@@ -59,7 +59,7 @@ const Home = () => {
               <input
                 type="text"
                 placeholder="https://www."
-                className="border h-10 px-2 rounded-l w-[80%] outline-none"
+                className={`${errors?.url?.message  && "border-red-500"} border h-10 px-2 rounded-l w-[80%] outline-none`}
                 {...register("url")}
               />
               <input

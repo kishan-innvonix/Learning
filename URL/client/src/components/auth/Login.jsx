@@ -5,7 +5,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "../../schemas/auth.schemas";
 import { Link } from "react-router-dom";
 import AuthLayout from "./AuthLayout";
-import FormError from "./FormError";
 import { useAuth } from "../../hooks/useAuth";
 
 
@@ -43,12 +42,14 @@ const Login = () => {
             label={"Email"}
             type={"email"}
             {...register("email")}
+            error={errors.email}
           />
           <Input
             id={"password"}
             label={"Password"}
             type={"password"}
             {...register("password")}
+            error={errors.password}
           />
           <input
             className="border text-lg px-10 py-1 rounded bg-black text-white font-bold cursor-pointer  mt-2"
@@ -57,9 +58,6 @@ const Login = () => {
             disabled={isLogin}
           />
         </form>
-
-        {/* Error handling */}
-        <FormError errors={errors} />
 
         <p>
           still not registered?{" "}
