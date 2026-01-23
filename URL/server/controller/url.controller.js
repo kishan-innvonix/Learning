@@ -3,6 +3,7 @@ import Url from "../models/url.model.js";
 import {
   asyncHandler,
   BadRequestError,
+  ForbiddenError,
   NotFoundError,
 } from "../utils/asyncHandler.js";
 import shortid from "shortid";
@@ -90,19 +91,64 @@ export const analysis = asyncHandler(async (req, res) => {
 export const getAllUrl = asyncHandler(async (req, res) => {
   const userId = req.user._id;
 
-  if(!userId) {
+  if (!userId) {
     throw new NotFoundError("No url found");
   }
 
-  const urls = await Url.find({user: userId})
+  const urls = await Url.find({ user: userId });
 
-  if(!urls) {
-    throw new NotFoundError("No url found!")
+  if (!urls) {
+    throw new NotFoundError("No url found!");
   }
 
   res.status(200).json({
     success: true,
     message: "Url loaded successfully",
-    urls
-  })
-})
+    urls,
+  });
+});
+
+// toggle activation
+export const toggleActive = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const url = await Url.findById(id);
+
+  if (!url) {
+    throw new NotFoundError("Url not Found!!!");
+  }
+
+  if (url.user.toString() !== req.user._id) {
+    throw new ForbiddenError("You are not allow to do this!!!");
+  }
+
+  url?.isActive ? (url.isActive = false) : (url.isActive = true);
+  await url.save();
+
+  res.status(200).json({
+    success: true,
+    message: url?.isActive ? "Activated Successfully!!!" : "Deactivated Successfully!!!",
+    url
+  });
+});
+
+// delete Url
+export const deleteUrl = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const url = await Url.findById(id);
+
+  if (!url) {
+    throw new NotFoundError("Url not Found!!!");
+  }
+
+  if (url.user.toString() !== req.user._id) {
+    throw new ForbiddenError("You are not allow to do this!!!");
+  }
+
+  const deletedUrl = await Url.findOneAndDelete({_id: id})
+
+  res.status(200).json({
+    success: true,
+    message: "Success",
+    deletedUrl: deletedUrl._id
+  });
+});

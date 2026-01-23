@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { LogOut } from 'lucide-react'
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import Logo from "./Logo";
 import { useAuth } from "../hooks/useAuth";
 
-const Navbar = () => {
+const Navbar = React.memo(() => {
+  
   const { user } = useAuthContext();
   const { logout } = useAuth();
 
@@ -36,6 +37,6 @@ const Navbar = () => {
       </div>
     </nav>
   );
-};
+});
 
 export default Navbar;

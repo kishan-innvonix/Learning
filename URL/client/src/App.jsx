@@ -9,6 +9,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import NotFound from "./components/NotFound";
 import { Toaster } from "react-hot-toast";
 import { useAuthContext } from "./hooks/useAuthContext";
+import CustomUrl from "./pages/CustomUrl";
 
 const App = () => {
   const { user } = useAuthContext();
@@ -23,6 +24,7 @@ const App = () => {
         {/* private route */}
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/urls" element={<CustomUrl /> } />
         </Route>
 
         {/* Auth route */}

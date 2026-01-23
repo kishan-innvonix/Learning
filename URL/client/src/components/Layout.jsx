@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 
-const Layout = ({ children }) => {
+const Layout = React.memo(({ children }) => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -10,6 +10,6 @@ const Layout = ({ children }) => {
       {/* <Footer /> */}
     </div>
   );
-};
+});
 
 export default Layout;

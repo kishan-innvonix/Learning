@@ -8,6 +8,8 @@ import FormError from "../components/auth/FormError";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { copyText } from "../utils/url";
+import { Copy } from "lucide-react";
 
 const BASE_URL = import.meta.env.VITE_BASE;
 
@@ -35,10 +37,6 @@ const Home = () => {
       const { data } = await axios.post(`${BASE_URL}/url`, {
         ...url,
         user: user?._id,
-      }, user && {
-        headers: {
-          Authorization: `Bearer ${user?.token}`
-        }
       });
       let tempUrl = `${BASE_URL}/url/${data?.shortUrl?.shortId}`;
       setNewUrl(tempUrl);
@@ -46,11 +44,6 @@ const Home = () => {
       toast.error(error?.response?.data?.message || "Something went wrong");
       console.log(error);
     }
-  };
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(newUrl);
-    toast.success("Copied Successfully", { position: "bottom-left" });
   };
 
   return (
@@ -79,11 +72,14 @@ const Home = () => {
               Paste your long URL and get a short, shareable link instantly.
             </p>
             <div
-              className={`${!newUrl && "hidden"} cursor-pointer bg-green-200 px-6 py-2 rounded-full`}
-              onClick={handleCopy}
+              className={`${!newUrl && "hidden"}  bg-green-200 px-3 py-1 rounded-lg flex items-center gap-4`}
             >
-              copy {"  -->  "}
               {newUrl}
+              <Copy
+                onClick={() => copyText(newUrl)}
+                className="cursor-pointer text-green-950"
+                size={15}
+              />
             </div>
             <FormError errors={errors} />
           </div>
