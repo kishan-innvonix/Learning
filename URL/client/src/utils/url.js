@@ -3,7 +3,11 @@ import toast from "react-hot-toast";
 const BASE_URL = import.meta.env.VITE_BASE;
 
 export const getFullUrl = (shortId) => {
-  return `${BASE_URL}/url/${shortId}`;
+  return `${BASE_URL}/${shortId}`;
+};
+
+export const getFullCustomUrl = (domain, customName) => {
+  return `${BASE_URL}/${domain}/${customName}`;
 };
 
 export const getShortUrl = (url, numOfChar) => {

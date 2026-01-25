@@ -63,7 +63,7 @@ const Login = () => {
           still not registered?{" "}
           <Link
             className="underline hover:text-zinc-700 font-medium"
-            to={"/register"}
+            to={"/signup"}
           >
             {" "}
             Signup

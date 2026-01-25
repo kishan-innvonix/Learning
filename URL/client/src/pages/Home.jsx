@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Layout from "../components/Layout";
 import img from "../../public/landing.png";
-import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import FormError from "../components/auth/FormError";
@@ -10,16 +9,11 @@ import toast from "react-hot-toast";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { copyText } from "../utils/url";
 import { Copy } from "lucide-react";
+import { urlSchema } from "../schemas/auth.schemas";
 
 const BASE_URL = import.meta.env.VITE_BASE;
 
 const Home = () => {
-  const urlSchema = yup.object({
-    url: yup
-      .string()
-      .url("Please enter valid URL!!!")
-      .required("URL is required to short!!!"),
-  });
 
   const {
     register,

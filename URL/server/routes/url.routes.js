@@ -4,20 +4,18 @@ import {
   createShortUrl,
   deleteUrl,
   getAllUrl,
-  getOriginalUrl,
   toggleActive,
 } from "../controller/url.controller.js";
 import { checkToken, validateUser } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-router.get("/:id", getOriginalUrl);
-
+// Protected routes for URL management
 router.post("/", checkToken, createShortUrl);
 
-router.get("/:id/analysis", validateUser, analysis);
+router.get("/list", validateUser, getAllUrl);
 
-router.get("/", validateUser, getAllUrl);
+router.get("/:id/analysis", validateUser, analysis);
 
 router.delete("/:id", validateUser, deleteUrl)
 

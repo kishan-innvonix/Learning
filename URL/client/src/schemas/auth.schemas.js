@@ -17,3 +17,30 @@ export const registerSchema = yup.object({
     .oneOf([yup.ref("password")], "Password didn't Match!!!")
     .required("Password Required!!!"),
 });
+
+export const urlSchema = yup.object({
+  url: yup
+    .string()
+    .url("Please enter valid URL!!!")
+    .required("URL is required to short!!!"),
+});
+
+export const customDomainSchema = yup.object({
+  domain: yup
+    .string()
+    .required("Domain name required")
+    .min(3, "Domain must be at least 3 characters"),
+});
+
+export const customUrlSchema = yup.object({
+  domain: yup.string().required("Domain required"),
+  url: yup
+    .string()
+    .url("Please enter valid URL!!!")
+    .required("URL is required"),
+  customName: yup
+    .string()
+    .required("Custom name required")
+    .min(3, "Custom name must be at least 3 characters"),
+});
+

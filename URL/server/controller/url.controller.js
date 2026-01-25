@@ -19,6 +19,11 @@ export const getOriginalUrl = asyncHandler(async (req, res) => {
 
   const url = await Url.findOne({ shortId: id });
 
+  if(!url?.isActive) {
+    res.redirect(`${process.env.VITE_BASE}/bad/${url?._id}`)
+    return 
+  }
+
   if (url?.user) {
     const ua = UAParser(req.headers["user-agent"] || "");
 

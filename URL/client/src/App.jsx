@@ -10,6 +10,7 @@ import NotFound from "./components/NotFound";
 import { Toaster } from "react-hot-toast";
 import { useAuthContext } from "./hooks/useAuthContext";
 import CustomUrl from "./pages/CustomUrl";
+import UrlDeactivated from "./pages/UrlDeactivated";
 
 const App = () => {
   const { user } = useAuthContext();
@@ -20,6 +21,7 @@ const App = () => {
       <Routes>
         {/* public route */}
         <Route path="/" element={<Home />} />
+        <Route path="/bad/:id" element={<UrlDeactivated />} />
 
         {/* private route */}
         <Route element={<PrivateRoute />}>

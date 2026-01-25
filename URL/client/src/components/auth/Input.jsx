@@ -2,7 +2,7 @@ import React from "react";
 
 const Input = ({ id, label, type, error, ...rest }) => {
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full gap-2">
       <label className="font-bold" htmlFor={id}>
         {label}
       </label>
@@ -12,7 +12,7 @@ const Input = ({ id, label, type, error, ...rest }) => {
         id={id}
         {...rest}
       />
-      <p className={`${!error && "hidden"} text-red-700  mt-1 rounded`}>
+      <p className={`${!error && "hidden"} text-red-700 rounded`}>
         {error?.message}
       </p>
     </div>

@@ -32,7 +32,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchUrls = async () => {
       try {
-        const { data } = await axios.get(`${BASE_URL}/url`, {
+        const { data } = await axios.get(`${BASE_URL}/api/url/list`, {
           headers: {
             Authorization: `Bearer ${user?.token}`,
           },
@@ -66,7 +66,7 @@ const Dashboard = () => {
     if (!cn) return;
 
     try {
-      const { data } = await axios.delete(`${BASE_URL}/url/${id}`, {
+      const { data } = await axios.delete(`${BASE_URL}/api/url/${id}`, {
         headers: {
           Authorization: `Bearer ${user?.token}`,
         },
@@ -84,7 +84,7 @@ const Dashboard = () => {
   const handleUpdateUrl = async (id) => {
     try {
       const { data } = await axios.patch(
-        `${BASE_URL}/url/${id}/status`,
+        `${BASE_URL}/api/url/${id}/status`,
         {},
         {
           headers: {
@@ -93,7 +93,7 @@ const Dashboard = () => {
         },
       );
       const filteredUrl = urls.map((url) => {
-        return url?._id === data?.url?._id ? data?.url : url;
+        return url?._id === id ? data?.url : url;
       });
       setUrls(filteredUrl);
 
@@ -105,13 +105,8 @@ const Dashboard = () => {
 
   return (
     <Layout>
-      {/* Basic states
-      recent urls
-      option for custom url(before check about custom name or username)
-      expiretion 
-    */}
       <div className="flex justify-center gap-5 w-full  mt-5 ">
-        <div className="urlStats flex flex-col items-center gap-5 w-[20%]">
+        <div className="urlStats flex flex-col items-center gap-5 w-[25%]">
           <div className="state flex flex-col w-full gap-1">
             <DataCard message={`Total URLS ${urls?.length}`} />
             <DataCard message={`Clicks ${totalClicks}`} />
@@ -126,10 +121,10 @@ const Dashboard = () => {
           </Link>
         </div>
 
-        <div className="recentUrls w-[40%]">
+        <div className="recentUrls w-[45%]">
           <ul className="flex flex-col gap-3">
-            {urls?.map((url, index) => (
-              <div key={index}>
+            {urls?.map((url) => (
+              <div key={url?._id}>
                 <li
                   onClick={() => handleLinkTogle(url?._id)}
                   className="cursor-pointer flex items-center justify-between gap-2 bg-black text-white px-3 rounded py-2"
