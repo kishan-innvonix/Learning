@@ -190,9 +190,9 @@ const CustomUrl = () => {
 
   return (
     <Layout>
-      <div className="flex justify-center gap-5 w-full mt-5 px-4">
+      <div className="flex md:flex-row flex-col justify-center gap-5 w-full mt-5 px-4">
         {/* Left Side - Forms */}
-        <div className="w-[25%] flex flex-col gap-5">
+        <div className="md-w-[35%] lg:w-[25%] flex flex-col gap-5">
           {/* Domain Form */}
           <div className="bg-white border-2 border-black p-6 rounded-lg h-fit">
             <h2 className="text-xl font-bold mb-6 text-black">
@@ -295,7 +295,7 @@ const CustomUrl = () => {
         </div>
 
         {/* Right Side */}
-        <div className="w-[45%]">
+        <div className="md:w-[55%] lg:w-[45%]">
           {customDomain ? (
             <>
               {/* Domain Display */}
@@ -310,7 +310,7 @@ const CustomUrl = () => {
               <h2 className="text-2xl font-bold mb-4 text-black">
                 Your Custom URLs
               </h2>
-              <ul className="flex flex-col gap-3">
+              <ul className="flex flex-col gap-3 mb-5">
                 {customUrls ? (
                   customUrls.map((url) => (
                     <div key={url?._id}>

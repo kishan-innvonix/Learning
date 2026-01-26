@@ -26,11 +26,12 @@ const Home = () => {
   const [newUrl, setNewUrl] = useState("");
   const { user } = useAuthContext();
 
-  const shortUrl = async (url) => {
+  const handleShortUrl = async (url) => {
     try {
-      const { data } = await axios.post(`${BASE_URL}/url`, {
-        ...url,
-        user: user?._id,
+      const { data } = await axios.post(`${BASE_URL}/api/url`,url ,user?.token && {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
       });
       let tempUrl = `${BASE_URL}/url/${data?.shortUrl?.shortId}`;
       setNewUrl(tempUrl);
@@ -42,27 +43,27 @@ const Home = () => {
 
   return (
     <Layout>
-      <div className="flex w-full">
-        <div className="left h-full flex flex-col relative justify-center items-center gap-5 w-[50%]">
+      <div className="flex flex-col md:flex-row w-full">
+        <div className="left h-full flex flex-col relative justify-center items-center gap-5 md:w-[50%]">
           <div className="flex flex-col gap-4 items-center w-[80%]">
-            <h1 className="text-4xl  font-bold">Shorten URL easily</h1>
+            <h1 className="md:text-4xl text-2xl font-bold">Shorten URL easily</h1>
             <form
-              onSubmit={handleSubmit(shortUrl)}
+              onSubmit={handleSubmit(handleShortUrl)}
               className="flex items-center justify-center relative w-full"
             >
               <input
                 type="text"
                 placeholder="https://www."
-                className={`${errors?.url?.message  && "border-red-500"} border h-10 px-2 rounded-l w-[80%] outline-none`}
+                className={`${errors?.url?.message  && "border-red-500"} border h-8 md:h-10 px-2 rounded-l w-[80%] outline-none`}
                 {...register("url")}
               />
               <input
                 type="submit"
                 value={"Short"}
-                className="border-y cursor-pointer border-r rounded-r h-10 px-3"
+                className="border-y cursor-pointer border-r rounded-r h-8 md:h-10 px-3"
               />
             </form>
-            <p>
+            <p className="text-sm md:text-lg">
               Paste your long URL and get a short, shareable link instantly.
             </p>
             <div
@@ -78,7 +79,7 @@ const Home = () => {
             <FormError errors={errors} />
           </div>
         </div>
-        <div className="right w-[50%] flex justify-center items-center h-full">
+        <div className="right md:w-[50%] flex justify-center items-center h-full">
           <div className="w-[70%]">
             <img src={img} alt="Landing Image" />
           </div>

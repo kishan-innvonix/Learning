@@ -12,7 +12,7 @@ const Navbar = React.memo(() => {
 
   return (
     <nav className="border-b">
-      <div className="flex justify-between items-center px-10 py-3">
+      <div className="flex justify-between items-center px-4 sm:px-10 py-3">
         <Link className="text-xl" to="/">
           <Logo />
         </Link>
@@ -26,7 +26,7 @@ const Navbar = React.memo(() => {
               className="text-xl font-medium flex items-center gap-1 text-red-500"
               to="/"
             >
-              Logout <LogOut size={20}/> 
+              <span className="hidden sm:block">Logout</span> <LogOut size={20}/> 
             </Link>
           </div>
         ) : (

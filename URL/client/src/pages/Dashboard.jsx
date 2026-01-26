@@ -105,8 +105,8 @@ const Dashboard = () => {
 
   return (
     <Layout>
-      <div className="flex justify-center gap-5 w-full  mt-5 ">
-        <div className="urlStats flex flex-col items-center gap-5 w-[25%]">
+      <div className="flex flex-col md:flex-row md:justify-center gap-5 w-full px-5 mt-5 ">
+        <div className="urlStats flex flex-col items-center gap-5 lg:w-[25%] md:w-[30%]">
           <div className="state flex flex-col w-full gap-1">
             <DataCard message={`Total URLS ${urls?.length}`} />
             <DataCard message={`Clicks ${totalClicks}`} />
@@ -121,7 +121,7 @@ const Dashboard = () => {
           </Link>
         </div>
 
-        <div className="recentUrls w-[45%]">
+        <div className="recentUrls md:w-[55%] lg:w-[45%]">
           <ul className="flex flex-col gap-3">
             {urls?.map((url) => (
               <div key={url?._id}>

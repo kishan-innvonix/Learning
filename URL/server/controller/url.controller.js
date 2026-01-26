@@ -61,7 +61,7 @@ export const createShortUrl = asyncHandler(async (req, res) => {
     redirectUrl: url,
     visitList: [],
   };
-
+console.log(req.user)
   if (req?.user) {
     urlObj.user = req.user._id;
   }
