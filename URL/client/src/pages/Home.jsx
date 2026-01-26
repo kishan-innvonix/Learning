@@ -4,17 +4,13 @@ import img from "../../public/landing.png";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import FormError from "../components/auth/FormError";
-import axios from "axios";
 import toast from "react-hot-toast";
-import { useAuthContext } from "../hooks/useAuthContext";
-import { copyText } from "../utils/url";
-import { Copy } from "lucide-react";
+import { copyText, getFullUrl } from "../utils/url";
+import { Copy, LoaderIcon } from "lucide-react";
 import { urlSchema } from "../schemas/auth.schemas";
-
-const BASE_URL = import.meta.env.VITE_BASE;
+import { createShortUrl } from "../services/urlService";
 
 const Home = () => {
-
   const {
     register,
     handleSubmit,
@@ -24,20 +20,19 @@ const Home = () => {
   });
 
   const [newUrl, setNewUrl] = useState("");
-  const { user } = useAuthContext();
+  const [loading, setLoading] = useState(false);
 
   const handleShortUrl = async (url) => {
     try {
-      const { data } = await axios.post(`${BASE_URL}/api/url`,url ,user?.token && {
-        headers: {
-          Authorization: `Bearer ${user?.token}`,
-        },
-      });
-      let tempUrl = `${BASE_URL}/url/${data?.shortUrl?.shortId}`;
+      setLoading(true);
+      const { data } = await createShortUrl(url);
+      let tempUrl = getFullUrl(data?.shortUrl?.shortId);
       setNewUrl(tempUrl);
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something went wrong");
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -46,7 +41,9 @@ const Home = () => {
       <div className="flex flex-col md:flex-row w-full">
         <div className="left h-full flex flex-col relative justify-center items-center gap-5 md:w-[50%]">
           <div className="flex flex-col gap-4 items-center w-[80%]">
-            <h1 className="md:text-4xl text-2xl font-bold">Shorten URL easily</h1>
+            <h1 className="md:text-4xl text-2xl font-bold">
+              Shorten URL easily
+            </h1>
             <form
               onSubmit={handleSubmit(handleShortUrl)}
               className="flex items-center justify-center relative w-full"
@@ -54,13 +51,15 @@ const Home = () => {
               <input
                 type="text"
                 placeholder="https://www."
-                className={`${errors?.url?.message  && "border-red-500"} border h-8 md:h-10 px-2 rounded-l w-[80%] outline-none`}
+                className={`${errors?.url?.message && "border-red-500"} border h-8 md:h-10 px-2 rounded-l w-[80%] outline-none`}
                 {...register("url")}
+                disabled={loading}
               />
               <input
                 type="submit"
-                value={"Short"}
+                value={loading ? "Shorting..." : "Short"}
                 className="border-y cursor-pointer border-r rounded-r h-8 md:h-10 px-3"
+                disabled={loading}
               />
             </form>
             <p className="text-sm md:text-lg">

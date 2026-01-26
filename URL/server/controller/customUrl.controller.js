@@ -80,7 +80,7 @@ export const createCustomUrl = asyncHandler(async (req, res) => {
 
   // Check if custom name already exists for this domain
   const existingUrl = await CustomUrl.findOne({
-    domain,
+    domain:customDomain?._id,
     customName,
   });
 

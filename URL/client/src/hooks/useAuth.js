@@ -1,10 +1,9 @@
-import axios from "axios";
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
-const BASE_URL = import.meta.env.VITE_BASE;
+import axiosInstance from './../utils/axiosConfig';
 
 export const useAuth = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -16,7 +15,7 @@ export const useAuth = () => {
     setIsLogin(true);
 
     const response = toast.promise(
-      axios.post(`${BASE_URL}/user/login`, formData),
+      axiosInstance.post(`/user/login`, formData),
       {
         loading: "Login...",
         success: (response) => response?.data?.message || "Success",
@@ -41,7 +40,7 @@ export const useAuth = () => {
     setIsSignup(true);
 
     const response = toast.promise(
-      axios.post(`${BASE_URL}/user/register`, formData),
+      axiosInstance.post(`/user/register`, formData),
       {
         loading: "Creating account...",
         success: (response) =>

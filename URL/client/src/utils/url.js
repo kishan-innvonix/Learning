@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
 
-const BASE_URL = import.meta.env.VITE_BASE;
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export const getFullUrl = (shortId) => {
   return `${BASE_URL}/${shortId}`;

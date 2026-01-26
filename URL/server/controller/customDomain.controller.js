@@ -1,5 +1,5 @@
 import CustomDomain from "../models/customDomain.model.js";
-import CustomUrl from "../models/customDomain.model.js";
+import CustomUrl from "../models/customUrl.model.js";
 import {
   asyncHandler,
   BadRequestError,
@@ -57,7 +57,7 @@ export const getCustomDomain = asyncHandler(async (req, res) => {
 export const deleteCustomDomain = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const userId = req.user._id;
-
+  console.log(id)
   const customDomain = await CustomDomain.findById(id);
 
   if (!customDomain) {

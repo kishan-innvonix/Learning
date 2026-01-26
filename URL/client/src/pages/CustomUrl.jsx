@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
 import Layout from "../components/Layout";
-import axios from "axios";
 import { useAuthContext } from "../hooks/useAuthContext";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
@@ -9,8 +8,17 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import Input from "../components/auth/Input";
 import UrlDetails from "../components/UrlDetails";
 import { customDomainSchema, customUrlSchema } from "../schemas/auth.schemas";
+import {
+  createCustomDomain,
+  createCustomUrl,
+  deleteCustomDomain,
+  deleteCustomUrl,
+  getAllCustomUrls,
+  getCustomDomain,
+  getCustomUrlsByDomain,
+  updateCustomUrl,
+} from "../services/customUrlService";
 
-const BASE_URL = import.meta.env.VITE_BASE;
 
 const CustomUrl = () => {
   const { user } = useAuthContext();
@@ -45,24 +53,13 @@ const CustomUrl = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data: domainData } = await axios.get(
-          `${BASE_URL}/customDomain`,
-          {
-            headers: {
-              Authorization: `Bearer ${user?.token}`,
-            },
-          },
-        );
+        const { data: domainData } = await getCustomDomain();
         setCustomDomain(domainData.customDomain || null);
         if (domainData.customDomain) {
           setSelectedDomain(domainData.customDomain._id);
         }
 
-        const { data: urlData } = await axios.get(`${BASE_URL}/api/customUrl/list`, {
-          headers: {
-            Authorization: `Bearer ${user?.token}`,
-          },
-        });
+        const { data: urlData } = await getCustomUrlsByDomain(domainData?.customDomain?._id);
         setCustomUrls(urlData.customUrls || []);
       } catch (error) {
         toast.error(error?.response?.data?.message || "Failed to fetch data");
@@ -74,11 +71,7 @@ const CustomUrl = () => {
   const onSubmitDomain = async (formData) => {
     setDomainLoading(true);
     try {
-      const { data } = await axios.post(`${BASE_URL}/customDomain`, formData, {
-        headers: {
-          Authorization: `Bearer ${user?.token}`,
-        },
-      });
+      const { data } = await createCustomDomain(formData);
       setCustomDomain(data.customDomain);
       setSelectedDomain(data.customDomain._id);
       toast.success(data.message || "Domain created successfully");
@@ -103,11 +96,7 @@ const CustomUrl = () => {
         domain: selectedDomain,
       };
 
-      const { data } = await axios.post(`${BASE_URL}/api/customUrl`, payload, {
-        headers: {
-          Authorization: `Bearer ${user?.token}`,
-        },
-      });
+      const { data } = await createCustomUrl(payload);
       setCustomUrls([...customUrls, data.customUrl]);
       toast.success(data.message || "Custom URL created successfully");
       resetUrl();
@@ -127,14 +116,7 @@ const CustomUrl = () => {
     if (!cn) return;
 
     try {
-      const { data } = await axios.delete(
-        `${BASE_URL}/customDomain/${customDomain._id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${user?.token}`,
-          },
-        },
-      );
+      const { data } = await deleteCustomDomain(customDomain?._id);
       setCustomDomain(null);
       setSelectedDomain("");
       setCustomUrls([]);
@@ -149,11 +131,7 @@ const CustomUrl = () => {
     if (!cn) return;
 
     try {
-      const { data } = await axios.delete(`${BASE_URL}/api/customUrl/${id}`, {
-        headers: {
-          Authorization: `Bearer ${user?.token}`,
-        },
-      });
+      const { data } = await deleteCustomUrl(id);
       const filteredUrls = customUrls.filter((url) => url?._id !== id);
       setCustomUrls(filteredUrls);
       toast.success(data.message || "Custom URL deleted");
@@ -162,27 +140,23 @@ const CustomUrl = () => {
     }
   };
 
-  const handleToggleCustomUrlActive = useCallback(async (id) => {
-    try {
-      const { data } = await axios.patch(
-        `${BASE_URL}/api/customUrl/${id}/status`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${user?.token}`,
-          },
-        },
-      );
-      setCustomUrls((prevUrls) =>
-        prevUrls.map((url) =>
-          url?._id === id ? data?.customUrl : url
-        )
-      );
-      toast.success(data.message || "Status updated");
-    } catch (error) {
-      toast.error(error?.response?.data?.message || "Failed to update status");
-    }
-  }, [user?.token]);
+  const handleToggleCustomUrlActive = useCallback(
+    async (id) => {
+      try {
+        const { data } = await updateCustomUrl(id)
+        setCustomUrls((prevUrls) =>
+          prevUrls.map((url) => (url?._id === id ? data?.customUrl : url)),
+        );
+        toast.success(data.message || "Status updated");
+      } catch (error) {
+        console.log(error)
+        toast.error(
+          error?.response?.data?.message || "Failed to update status",
+        );
+      }
+    },
+    [user?.token],
+  );
 
   const handleLinkToggle = useCallback((id) => {
     setIsLinkOpen((prev) => (prev === id ? null : id));

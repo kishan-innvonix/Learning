@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { LogOut } from 'lucide-react'
+import { LogOut, Plus } from 'lucide-react'
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import Logo from "./Logo";
@@ -17,9 +17,12 @@ const Navbar = React.memo(() => {
           <Logo />
         </Link>
         {user ? (
-          <div className="flex gap-4">
+          <div className="flex items-center gap-3 md:gap-4">
             <Link className="text-xl font-medium" to="/dashboard">
               Dashboard
+            </Link>
+            <Link to={"/urls"} title="Create Custom Url" className="md:px-4 px-1 py-1 gap-1 flex items-center bg-gray-200 rounded-full"> 
+             <span className="hidden md:block">Custom URL</span> <Plus size={20}/> 
             </Link>
             <Link
               onClick={() => logout()}
