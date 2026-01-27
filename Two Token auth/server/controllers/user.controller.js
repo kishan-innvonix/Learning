@@ -1,12 +1,13 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import User from "../models/user.model.js";
-import validator from "validator";
 import jwt from "jsonwebtoken";
 import {
+  ApiError,
   BadRequestError,
   NotFoundError,
   UnauthorizedError,
 } from "../utils/ApiError.js";
+import { registerSchema } from "../validations/user.validations.js";
 
 const options = {
   httpOnly: true,
@@ -15,19 +16,16 @@ const options = {
 
 // Register
 export const register = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
-
-  if (!name || !email || !password) {
-    throw new BadRequestError("All fields are required!!!");
+  const { error, value } = registerSchema.validate(req.body, {abortEarly: false});
+  if (error) {
+    throw new ApiError("Invalid Data Input!!!", {
+      status: 400,
+      code: "BAD_REQUEST",
+      errors: error?.details,
+    });
   }
 
-  if (!validator.isEmail(email)) {
-    throw new BadRequestError("Invalid Email!!!");
-  }
-
-  if (!validator.isStrongPassword(password)) {
-    throw new BadRequestError("Password is too weak!!!");
-  }
+  const { name, email, password } = value;
 
   const normalizedEmail = email.toLowerCase();
   const isExist = await User.findOne({ email: normalizedEmail });
@@ -144,3 +142,19 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
     accessToken: newAccessToken,
   });
 });
+
+// current user
+export const getCurrentUser = asyncHandler(async (req, res) => {
+  
+  const user = await User.findById(req.user._id).select("-password -refreshToken")
+
+  if(!user) {
+    throw new BadRequestError("User not found!!!")
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "User found",
+    user
+  })
+})
