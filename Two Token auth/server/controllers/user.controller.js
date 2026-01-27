@@ -1,7 +1,17 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import User from "../models/user.model.js";
 import validator from "validator";
-import { BadRequestError } from "../utils/ApiError.js";
+import jwt from "jsonwebtoken";
+import {
+  BadRequestError,
+  NotFoundError,
+  UnauthorizedError,
+} from "../utils/ApiError.js";
+
+const options = {
+  httpOnly: true,
+  secure: true,
+};
 
 // Register
 export const register = asyncHandler(async (req, res) => {
@@ -70,11 +80,67 @@ export const login = asyncHandler(async (req, res) => {
     "-password -refreshToken",
   );
 
-  res.status(200).json({
+  res.cookie("refreshToken", refreshToken, options).status(200).json({
     success: true,
     message: "Welcome Back!",
     user: loggedUser,
     accessToken,
-    refreshToken,
+  });
+});
+
+// Logout
+export const logout = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+
+  const user = await User.findById(userId);
+
+  if (!user) {
+    throw new NotFoundError("User not found!!!");
+  }
+  if (!user?.refreshToken) {
+    throw new UnauthorizedError("You already logged out!!!");
+  }
+
+  await User.findByIdAndUpdate(
+    userId,
+    { $unset: { refreshToken: "" } },
+    { new: true },
+  );
+
+  res.status(200).json({
+    success: true,
+    message: "Logged out!!!",
+  });
+});
+
+// refresh the access token
+export const refreshAccessToken = asyncHandler(async (req, res) => {
+  const refreshToken = req.cookies?.refreshToken;
+  if (!refreshToken) {
+    throw new UnauthorizedError("You need to login first");
+  }
+
+  let decoded;
+  try {
+    decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+  } catch (error) {
+    throw new UnauthorizedError("Invalid or Expired token!!!");
+  }
+
+  const user = await User.findById(decoded?._id);
+  if (user?.refreshToken !== refreshToken) {
+    throw new UnauthorizedError("Invalid Refresh Token");
+  }
+
+  const newRefreshToken = await user.generateRefreshToken();
+  const newAccessToken = await user.generateAccessToken();
+
+  user.refreshToken = newRefreshToken;
+  await user.save();
+
+  res.cookie("refreshToken", newRefreshToken, options).status(200).json({
+    success: true,
+    message: "Success",
+    accessToken: newAccessToken,
   });
 });

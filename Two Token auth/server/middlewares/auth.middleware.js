@@ -1,16 +1,9 @@
-import { UnauthorizedError } from "../utils/ApiError";
+import { UnauthorizedError } from "../utils/ApiError.js";
 import jwt from "jsonwebtoken";
 
-export const authVaildator = (req, res, next) => {
+export const authValidator = (req, res, next) => {
   try {
-    const auth = req.headers.authorization;
-
-    if (!auth || !auth.startsWith("Bearer ")) {
-      throw new UnauthorizedError("You need to login first!!!");
-    }
-
-    const token = auth.split(" ")[1];
-
+    const token = req.headers.authorization?.split(" ")[1];
     if (!token) {
       throw new UnauthorizedError("You need to login first!!!");
     }
@@ -20,6 +13,6 @@ export const authVaildator = (req, res, next) => {
     req.user = { _id: decode._id };
     next();
   } catch (error) {
-    next(error);
+    throw new UnauthorizedError("Invalid or expired token");
   }
 };
