@@ -22,6 +22,7 @@ const Home = () => {
   const [newUrl, setNewUrl] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // create short url
   const handleShortUrl = async (url) => {
     try {
       setLoading(true);

@@ -58,9 +58,10 @@ const CustomUrl = () => {
         if (domainData.customDomain) {
           setSelectedDomain(domainData.customDomain._id);
         }
-
-        const { data: urlData } = await getCustomUrlsByDomain(domainData?.customDomain?._id);
-        setCustomUrls(urlData.customUrls || []);
+        if(domainData?.customDomain?._id) {
+          const { data: urlData } = await getCustomUrlsByDomain(domainData?.customDomain?._id);
+          setCustomUrls(urlData.customUrls || []);
+        }
       } catch (error) {
         toast.error(error?.response?.data?.message || "Failed to fetch data");
       }
@@ -68,6 +69,7 @@ const CustomUrl = () => {
     fetchData();
   }, [user?.token]);
 
+  // create domain
   const onSubmitDomain = async (formData) => {
     setDomainLoading(true);
     try {
@@ -83,6 +85,7 @@ const CustomUrl = () => {
     }
   };
 
+  // create custom url
   const onSubmitUrl = async (formData) => {
     if (!selectedDomain) {
       toast.error("Please select or create a domain first");
@@ -109,6 +112,7 @@ const CustomUrl = () => {
     }
   };
 
+  // delete domain
   const handleDeleteDomain = async () => {
     const cn = confirm(
       "Are you sure? This will delete the domain and all associated URLs.",
@@ -126,6 +130,7 @@ const CustomUrl = () => {
     }
   };
 
+  // delete custom url
   const handleDeleteCustomUrl = async (id) => {
     const cn = confirm("Are you sure?");
     if (!cn) return;
@@ -140,6 +145,7 @@ const CustomUrl = () => {
     }
   };
 
+  // Activate / Deactivate Url
   const handleToggleCustomUrlActive = useCallback(
     async (id) => {
       try {
@@ -158,6 +164,7 @@ const CustomUrl = () => {
     [user?.token],
   );
 
+  // Url detail toggle
   const handleLinkToggle = useCallback((id) => {
     setIsLinkOpen((prev) => (prev === id ? null : id));
   }, []);
