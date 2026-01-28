@@ -14,3 +14,19 @@ exports.createOrder = async(req, res) => {
         })
     }
 }
+
+exports.getOrders = async (req, res) => {
+    try {
+        const orders = await orderModel.getAllOrders();
+        res.status(200).json({
+            success: true,
+            message: "Success",
+            orders
+        })
+        
+    } catch (error) {
+        res.status(500).json({
+            error: error?.message || "Something went wrong"
+        })       
+    }
+}
