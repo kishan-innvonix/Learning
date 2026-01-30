@@ -16,7 +16,9 @@ const options = {
 
 // Register
 export const register = asyncHandler(async (req, res) => {
-  const { error, value } = registerSchema.validate(req.body, {abortEarly: false});
+  const { error, value } = registerSchema.validate(req.body, {
+    abortEarly: false,
+  });
   if (error) {
     throw new ApiError("Invalid Data Input!!!", {
       status: 400,
@@ -105,7 +107,7 @@ export const logout = asyncHandler(async (req, res) => {
     { new: true },
   );
 
-  res.status(200).json({
+  res.clearCookie("refreshToken").status(200).json({
     success: true,
     message: "Logged out!!!",
   });
@@ -145,16 +147,17 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
 
 // current user
 export const getCurrentUser = asyncHandler(async (req, res) => {
-  
-  const user = await User.findById(req.user._id).select("-password -refreshToken")
+  const user = await User.findById(req.user._id).select(
+    "-password -refreshToken",
+  );
 
-  if(!user) {
-    throw new BadRequestError("User not found!!!")
+  if (!user) {
+    throw new BadRequestError("User not found!!!");
   }
 
   res.status(200).json({
     success: true,
     message: "User found",
-    user
-  })
-})
+    user,
+  });
+});
