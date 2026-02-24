@@ -1,76 +1,33 @@
-
-import { Route, Routes } from 'react-router-dom'
-import Register from './components/auth/Register'
-import Home from './components/Home'
+import { Navigate, Route, Routes } from "react-router-dom";
+import Register from "./components/auth/Register";
+import Home from "./components/Home";
+import Dashboard from "./components/Dashboard";
+import { useEffect, useState } from "react";
+import Login from "./components/auth/Login";
 
 const App = () => {
+  const [token, setToken] = useState(null);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setToken(token);
+  }, []);
   return (
     <Routes>
-      <Route path="/" element={<Home/>}/>
-      <Route path="/register" element={<Register/>}/>
+      <Route path="/" element={<Home />} />
+      <Route
+        path="/register"
+        element={token ? <Navigate to={"/dashboard"} /> : <Register />}
+      />
+      <Route
+        path="/login"
+        element={token ? <Navigate to={"/dashboard"} /> : <Login />}
+      />
+      <Route
+        path="/dashboard"
+        element={!token ? <Navigate to={"/login"} /> : <Dashboard />}
+      />
     </Routes>
-  )
-}
+  );
+};
 
-export default App
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React from "react";
-// import { useForm } from "react-hook-form";
-
-// const App = () => {
-//   const {
-//     register,
-//     handleSubmit,
-//     watch,
-//     formState: { errors },
-//   } = useForm();
-
-//   const submitHandler = (data) => {
-//     console.log(data);
-//   };
-
-//   return (
-//     <>
-//       <form onSubmit={handleSubmit(submitHandler)}>
-//         <input type="text" {...register("name")} />
-//         <input type="email" {...register("email", {required: true})} />
-//         <input type="password" {...register("password")} />
-        
-//         <select name="gender" {...register("gender")}>
-//           <option value="male">male</option>
-//           <option value="female">female</option>
-//           <option value="other">other</option>
-//         </select>
-//         {/* errors will return when field validation fails  */}
-//         {errors.email && <span>This field is required</span>}
-
-//         <input type="submit" />
-//       </form>
-//     </>
-//   );
-// };
-
-// export default App;
-
-
-
+export default App;
