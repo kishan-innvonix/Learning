@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 const generateToken = (userId) => {
-  return jwt.sign({ userId }, "secret", { expiresIn: "1d" });
+  return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: "1d" });
 };
 
 exports.getAllUsers = async (req, res) => {
@@ -81,9 +81,8 @@ exports.login = async (req, res) => {
     }
     const user = await prisma.user.findUnique({
       where: { email: email },
-      select: { id: true, name: true, email: true, bio: true, createdAt: true },
     });
-
+    console.log(password, user);
     const isCorrect = await bcrypt.compare(password, user.password);
     if (!isCorrect) {
       return res.status({
@@ -120,7 +119,7 @@ exports.login = async (req, res) => {
 exports.getUserById = async (req, res) => {
   try {
     const userId = req.params.id;
-    
+
     const user = await prisma.user.findUnique({
       where: { id: Number(userId) },
       select: { id: true, name: true, email: true, bio: true, createdAt: true },
@@ -136,6 +135,36 @@ exports.getUserById = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Users found!",
+      user,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+};
+
+exports.getCurrentUser = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+
+    const user = await prisma.user.findUnique({
+      where: { id: Number(userId) },
+      select: { id: true, name: true, email: true, bio: true, createdAt: true },
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "No user found!!!",
+      });
+    }
+    
+    res.status(200).json({
+      success: true,
+      message: "User found!",
       user,
     });
   } catch (error) {

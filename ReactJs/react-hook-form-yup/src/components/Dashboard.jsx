@@ -1,5 +1,30 @@
+import { useEffect } from "react";
+import { useState } from "react";
+import api from "../utils/api";
+
 const Dashboard = () => {
-  const token = localStorage.getItem("token");
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+  // user: {bio: "";
+  // createdAt: "2026-02-24T06:44:48.750Z";
+  // email: "kp19@gmail.com";
+  // id: 4;
+  // name: "Kishan}";
+  useEffect(() => {
+    const fetchUser = async () => {
+      setLoading(true);
+      try {
+        const { data } = await api.get(`/users/`);
+        setUser(data?.user);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUser();
+  }, []);
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -8,7 +33,6 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-
       {/* Navbar */}
       <nav className="bg-indigo-600 text-white px-6 py-4 flex justify-between">
         <h1 className="text-xl font-semibold">My Dashboard</h1>
@@ -23,17 +47,11 @@ const Dashboard = () => {
       {/* Content */}
       <div className="p-6">
         <div className="bg-white p-6 rounded-xl shadow-md">
-          <h2 className="text-2xl font-bold mb-2">Welcome 🎉</h2>
-          <p className="text-gray-600">
-            You are successfully logged in.
-          </p>
-
-          {/* <p className="mt-4 text-sm text-gray-500">
-            Token: {token}
-          </p> */}
+          <h2 className="text-2xl font-bold mb-2">
+            Welcome {loading ? "..." : user?.name} 🎉
+          </h2>
         </div>
       </div>
-
     </div>
   );
 };
