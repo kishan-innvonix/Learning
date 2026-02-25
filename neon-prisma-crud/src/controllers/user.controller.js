@@ -1,6 +1,7 @@
 const { prisma } = require("../db");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const { sendMail } = require("../utils/sendMail");
 
 const generateToken = (userId) => {
   return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: "1d" });
@@ -82,7 +83,6 @@ exports.login = async (req, res) => {
     const user = await prisma.user.findUnique({
       where: { email: email },
     });
-    console.log(password, user);
     const isCorrect = await bcrypt.compare(password, user.password);
     if (!isCorrect) {
       return res.status({
@@ -91,7 +91,6 @@ exports.login = async (req, res) => {
       });
     }
 
-    console.log(user);
     if (!user) {
       return res.json(404).json({
         success: false,
@@ -161,7 +160,7 @@ exports.getCurrentUser = async (req, res) => {
         message: "No user found!!!",
       });
     }
-    
+
     res.status(200).json({
       success: true,
       message: "User found!",
@@ -172,6 +171,131 @@ exports.getCurrentUser = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Something went wrong",
+    });
+  }
+};
+
+const otps = new Map();
+// email -> {otp, expireAt}
+
+exports.sendOtp = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "No user found!!!",
+      });
+    }
+
+    const otp = Math.floor(Math.random() * 1000000);
+
+    otps.set(email, {
+      otp,
+      expiresIn: Date.now() + 5 * 60 * 1000,
+    });
+
+    await sendMail(email, "OTP to reset password", `Your OTP is ${otp}`);
+
+    res.status(200).json({
+      success: true,
+      message: "OTP sent to your email!!!",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+};
+
+exports.verifyOtp = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "No user found!!!",
+      });
+    }
+
+    const record = otps.get(email);
+    if (!record) {
+      return res.status(404).json({
+        success: false,
+        message: "Otp Expired try again!",
+      });
+    }
+
+    if (Date.now() > record.expiresIn) {
+      otps.delete(email);
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Otp",
+      });
+    }
+    if (record.otp !== Number(otp)) {
+      return res.status(400).json({
+        success: false,
+        message: "Incorrect otp",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "OTP validation successfuly",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+};
+
+exports.resetPassword = async (req, res) => {
+  try {
+    const { newPassword, email } = req.body;
+
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found pls try again",
+      });
+    }
+
+    const hashPass = await bcrypt.hash(newPassword, 10);
+
+    await prisma.user.update({
+      where: { email },
+      data: {
+        password: hashPass,
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Password reset successful",
+    });
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong!!!",
     });
   }
 };

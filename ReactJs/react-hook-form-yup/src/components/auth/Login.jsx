@@ -74,9 +74,11 @@ const Login = () => {
           type="submit"
           className="bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition"
         >
-          {loading? "Login..." : "Login"}
+          {loading ? "Login..." : "Login"}
         </button>
-
+        <a href="/forget" className="text-blue-500 underline font-medium">
+          forget password
+        </a>
         <p className="text-sm text-center text-gray-600 mt-2">
           Don't have an account?{" "}
           <a href="/register" className="text-indigo-600 font-medium">
