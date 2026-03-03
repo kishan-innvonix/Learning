@@ -22,7 +22,7 @@ dbConnect();
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
   }),
 );
 
@@ -47,7 +47,11 @@ app.use(globalErrorHandler);
 
 app.use(errorHandler);
 
-const port = 3000;
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+const port = process.env.PORT || 3000;
+if (process.env.NODE_ENV !== "production") {
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
+}
+
+export default app;
