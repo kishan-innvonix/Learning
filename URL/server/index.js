@@ -9,6 +9,8 @@ import customUrlRoutes from "./routes/customUrl.routes.js";
 import cors from "cors";
 import dotenv from "dotenv";
 import morgan from "morgan";
+import { errorHandler } from "./middleware/errorHandler.js";
+import { requestLogger } from "./middleware/requestLogger.js";
 
 dotenv.config();
 
@@ -16,13 +18,15 @@ const app = express();
 
 dbConnect();
 
-app.use(morgan("dev"))
+// app.use(morgan("dev"))
 app.use(express.json());
 app.use(
   cors({
     origin: "http://localhost:5173",
   }),
 );
+
+app.use(requestLogger)
 
 // Health check route
 app.get("/", (req, res) => {
@@ -40,6 +44,8 @@ app.use(urlRedirectRoutes);
 
 // Error handler middleware
 app.use(globalErrorHandler);
+
+app.use(errorHandler);
 
 const port = 3000;
 app.listen(port, () => {
