@@ -1,6 +1,6 @@
 services:
   backend:
-    image: backend:1.0
+    image: url-shortner-backend:1.0
     build: ./server
     ports:
       - "3000:3000"
@@ -10,7 +10,7 @@ services:
       - ./server/.env
 
   frontend:
-    image: frontend:1.0
+    image: url-shortner-frontend:1.0
     build: ./client
     ports:
       - "5173:5173"

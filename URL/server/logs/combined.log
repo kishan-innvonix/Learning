@@ -31,3 +31,9 @@
 2026-03-17T07:39:19.547Z [info]: GET / 200 2.607 ms
 2026-03-17T07:39:19.624Z [info]: GET /favicon.ico 302 24.138 ms
 2026-03-17T07:39:21.353Z [info]: GET /sw.js 302 14.392 ms
+2026-03-17T09:40:45.870Z [info]: POST /api/url 201 54.051 ms
+2026-03-17T09:46:25.025Z [info]: POST /api/url 201 36.729 ms
+2026-03-17T10:11:12.915Z [info]: GET /customDomain 200 34.253 ms
+2026-03-17T10:11:12.938Z [info]: GET /customDomain 304 20.681 ms
+2026-03-17T10:11:12.997Z [info]: GET /api/customUrl/domain/69b8fb1487bb4730694d69ed 200 71.500 ms
+2026-03-17T10:11:13.058Z [info]: GET /api/customUrl/domain/69b8fb1487bb4730694d69ed 304 59.964 ms
