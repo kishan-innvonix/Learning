@@ -1,0 +1,22 @@
+{
+  "name": "smart-order-system",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Microservices POC — clustering, worker threads, RabbitMQ",
+  "scripts": {
+    "install:all": "cd gateway && npm install && cd ../services/users && npm install && cd ../orders && npm install && cd ../notifications && npm install && cd ../../..",
+    "start:all": "concurrently -n gateway,users,orders,notif -c cyan,blue,magenta,green \"cd gateway && node index.js\" \"cd services/users && node index.js\" \"cd services/orders && node index.js\" \"cd services/notifications && node index.js\"",
+    "dev:all": "concurrently -n gateway,users,orders,notif -c cyan,blue,magenta,green \"cd gateway && nodemon index.js\" \"cd services/users && nodemon index.js\" \"cd services/orders && nodemon index.js\" \"cd services/notifications && nodemon index.js\"",
+    "dev:gateway": "cd gateway && nodemon index.js",
+    "dev:users": "cd services/users && nodemon index.js",
+    "dev:orders": "cd services/orders && nodemon index.js",
+    "dev:notif": "cd services/notifications && nodemon index.js"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.0.0"
+  },
+  "dependencies": {
+    "amqplib": "^1.0.2"
+  }
+}
