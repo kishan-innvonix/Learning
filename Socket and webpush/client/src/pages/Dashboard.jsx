@@ -140,6 +140,7 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
+    if (!chatId) return;
     const fetchChat = async () => {
       setLoading(true);
       try {
@@ -196,7 +197,7 @@ const Dashboard = () => {
               onClick={() => handleChatWithUser(user)}
               className={`px-4 py-3 cursor-pointer hover:bg-zinc-100 
               ${selectedUser?._id === user._id && "bg-zinc-200"}`}
-              >
+            >
               {user.name}
             </div>
           ))}
@@ -210,7 +211,7 @@ const Dashboard = () => {
           <div className="flex flex-col overflow-y-auto mt-1">
             {chats.map((chat) => {
               const otherUser = chat.users.find((user) => user._id !== userId);
-              console.log(otherUser)
+              console.log(otherUser);
               return (
                 <div
                   key={otherUser._id}

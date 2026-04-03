@@ -5,12 +5,13 @@ import toast from "react-hot-toast";
 
 import axiosInstance from "./../utils/axiosConfig";
 import { connectSocket } from "../utils/socket";
-import { useEffect } from "react";
+import { usePush } from "./usePush";
 
 export const useAuth = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
-  const { setToken, setUserId, userId, token} = useAuthContext();
+  const { setToken, setUserId, userId, token } = useAuthContext();
+  const { subscribe, unsubscribe } = usePush();
   const navigate = useNavigate();
 
   const login = async (formData, reset) => {
@@ -27,13 +28,16 @@ export const useAuth = () => {
 
     try {
       const { data } = await response;
-      console.log(data)
+
       localStorage.setItem("accessToken", JSON.stringify(data?.accessToken));
       localStorage.setItem("userId", JSON.stringify(data?.userId));
-      connectSocket(data?.accessToken)
-      
+      connectSocket(data?.accessToken);
+      console.log(data);
+      // subscribe to push notification
+      await subscribe(data?.userId);
+
       setToken(data?.accessToken);
-      setUserId(data?.userId)
+      setUserId(data?.userId);
       reset();
       navigate("/");
     } catch (error) {
@@ -72,6 +76,10 @@ export const useAuth = () => {
       await axiosInstance.post(`/api/user/logout`);
       toast.success("Logout!!!");
       localStorage.removeItem("accessToken");
+
+      // unsubscribe from push notification
+      unsubscribe();
+
       setToken("");
     } catch (error) {
       console.log(error);

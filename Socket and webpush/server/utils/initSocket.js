@@ -1,6 +1,9 @@
 import { Server } from "socket.io";
 import jwt from "jsonwebtoken";
 
+// Map of userId (string) -> socketId for checking online status
+export const connectedUsers = new Map();
+
 export const initSocket = (server) => {
   const io = new Server(server, {
     cors: {
@@ -23,15 +26,24 @@ export const initSocket = (server) => {
   });
 
   io.on("connection", (socket) => {
- 
-    socket.join(socket.user._id)
+    const userId = socket.user._id.toString();
 
-    socket.on("new_message", ({id, message}) => {
+    // Track connected user
+    connectedUsers.set(userId, socket.id);
+    console.log(`User connected: ${userId}`);
 
+    socket.join(userId);
+
+    socket.on("new_message", ({ id, message }) => {
       io.to(id).emit("receive_message", {
         message,
-        sender: socket.user._id
+        sender: socket.user._id,
       });
+    });
+
+    socket.on("disconnect", () => {
+      connectedUsers.delete(userId);
+      console.log(`User disconnected: ${userId}`);
     });
   });
 };

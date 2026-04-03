@@ -14,7 +14,7 @@ export const authValidator = async (req, res, next) => {
     req.user = decoded;
     next();
   } catch (error) {
-    next(error);
+    next(new UnauthorizedError("Invalid Access!!!"));
   }
 };
 
