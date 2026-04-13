@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
     },
   },
   images: {
-    domains: ["cdn.dummyjson.com"],
+    domains: ["cdn.dummyjson.com", "dummyjson.com"],
   },
 };
 
