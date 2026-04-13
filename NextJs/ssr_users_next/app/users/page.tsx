@@ -19,7 +19,7 @@ export default async function SSRPage() {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white sm:text-5xl">
-            Users Directory
+            Users Directory {"<-->"}
           </h1>
           <p className="mt-3 max-w-2xl mx-auto text-xl text-gray-500 dark:text-gray-400 sm:mt-4">
             A complete server-side rendered list of all active members.
